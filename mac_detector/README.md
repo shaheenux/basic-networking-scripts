@@ -9,3 +9,8 @@ This script reinforces core networking concepts such as:
 - Interface-level state monitoring
 - Command output parsing
 - Change detection logic
+
+USAGE MODES
+
+./mac_detector.sh eth0 (Monitor a specific interface)
+./mac_detector.sh -all (Monitor all non-loopback interfaces)
