@@ -13,4 +13,5 @@ This script reinforces core networking concepts such as:
 USAGE MODES
 
 ./mac_detector.sh eth0 (Monitor a specific interface)
+
 ./mac_detector.sh -all (Monitor all non-loopback interfaces)
