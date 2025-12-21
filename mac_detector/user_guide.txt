@@ -1,0 +1,40 @@
+
+###########################################################
+
+USAGE GUIDE:
+
+(after cloning the repository)
+
+change the permissions of the script.
+>chmod +x mac_detector.sh
+
+____________________________________________________________
+
+HOW TO RUN:
+
+(for specific port)
+>./mac_detector.sh port-name e.g. ./mac_detector.sh eth0
+
+(for all ports)
+>./mac_detector.sh -all
+
+____________________________________________________________
+
+OUTPUT:
+
+output will be saved in the script directory in 2 files (for one port).
+
+EXAMPLE:
+
+mac_detector.sh
+mac_store/           (directory, auto-created)
+  ├─ eth0.mac
+  ├─ ens33.mac
+mac_change.log       (auto-created)
+
+____________________________________________________________
+
+GIVE A STAR IF YOU LIKED THE SCRIPT AND WANT MORE SCRIPTS LIKE THAT:
+> github.com/shaheenux
+
+############################################################
