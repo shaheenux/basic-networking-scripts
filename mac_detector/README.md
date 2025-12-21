@@ -12,7 +12,7 @@ This script reinforces core networking concepts such as:
 
 USAGE MODES
 
-(Monitor a specific interface)
+- (Monitor a specific interface)
 ./mac_detector.sh eth0
-(Monitor all non-loopback interfaces)
+- (Monitor all non-loopback interfaces)
 ./mac_detector.sh -all
