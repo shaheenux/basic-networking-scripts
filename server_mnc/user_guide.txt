@@ -1,0 +1,42 @@
+```text
+=========================================
+USER GUIDE: SERVER Monitoring and Connectivity SCRIPT
+=========================================
+
+1. REQUIREMENTS
+-----------------------------------------
+- A Linux/Unix environment (Ubuntu, Debian, CentOS, macOS, Kali, etc.)
+- Standard 'ping' utility installed.
+- Bash shell (v4.0 or higher recommended).
+
+2. CONFIGURING THE FILES
+-----------------------------------------
+The script reads from three specific text files. Ensure these are in the
+same folder as the script.
+
+* servers.txt: 
+  Enter one IP address per line. The script will check if these are
+  reachable and then attempt to scan the ports listed in ports.txt.
+
+* ports.txt:
+  Enter one port number per line (e.g., 80, 443, 3306). 
+  Note: This script uses the /dev/tcp method for speed.
+
+* ping_svr.txt:
+  Enter IPs you want to track for speed/lag. Results are saved in a 
+  CSV format for easy import into Excel or Google Sheets.
+
+3. AUTOMATION (CRON)
+-----------------------------------------
+To run this script automatically every 15 minutes, add it to your crontab:
+  1. Type 'crontab -e'
+  2. Add the following line (replace with your actual path):
+     */15 * * * * /home/user/scripts/server_mnc.sh
+
+4. TROUBLESHOOTING
+-----------------------------------------
+- Permission Denied: Run 'chmod +x server_mnc.sh'.
+- Script hangs: This usually happens if an IP is completely unroutable. 
+  The script has a 2-second timeout built-in to prevent long freezes.
+- No logs appearing: Ensure you have write permissions in the script folder.
+=========================================
