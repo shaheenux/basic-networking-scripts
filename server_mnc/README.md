@@ -1,82 +1,87 @@
 🌐 Server MNC (Monitoring & Connectivity) Suite
 
-A professional, lightweight Bash automation tool for real-time network health auditing.
-🚀 Overview
+A robust, enterprise-ready Bash framework for network health and latency auditing.
+📖 Introduction
 
-The Server MNC Suite is designed for system administrators and developers who need a "no-fuss" monitoring solution. It automates the tedious task of checking server reachability, verifying open services (ports), and logging latency trends for analysis.
-✨ Key Features
+The Server MNC Suite is a lightweight yet powerful tool designed to give system administrators and security researchers total visibility over their network infrastructure. By utilizing asynchronous checks and modular configuration files, this suite provides real-time feedback and long-term data logging without the overhead of heavy monitoring software.
+🛠️ Core Functionalities
+1. Uptime Monitoring
 
-    Multi-Target Uptime: Monitor multiple servers simultaneously via servers.txt.
+Automatically iterates through your servers.txt file to verify host availability using ICMP echo requests.
 
-    Service Auditing: Cross-check every server against a custom list of critical ports.
+    Reliability: Uses a 2-second wait window to ensure accurate reporting even on high-latency links.
 
-    Latency Analytics: High-precision RTT tracking logged directly into a .csv format.
+    Logging: Records every state change with a millisecond-precision timestamp.
 
-    Auto-Logging: Maintains a historical record of network events in a dedicated /logs directory.
+2. Service & Port Auditing
 
-    Smart Timeouts: Built-in 2-second timeout to prevent script hangs on dead IPs.
+Cross-references every server in your list against the protocols defined in ports.txt.
 
-📂 Project Architecture
+    Technique: Utilizes the /dev/tcp stack for stealthy and rapid connection attempts.
 
-The suite uses a modular "Domestic Structure" to keep your configuration separate from the logic:
-Bash
+    Flexibility: Easily audit web servers (80/443), databases (3306/5432), or management interfaces (22/3389).
 
-.
-├── server_mnc.sh      # 🧠 The Brain: Core logic and execution
-├── servers.txt        # 🖥️ Targets: List of Server IPs/Hostnames
-├── ports.txt          # 🔌 Services: List of Ports to audit (80, 443, etc.)
-├── ping_svr.txt       # 📈 Analytics: IPs for latency tracking
-├── user_guide.txt     # 📖 Manual: Detailed user instructions
-└── logs/              # 📊 History: Auto-generated log files
-    ├── uptime.log     # Records ON/OFF status
-    └── latency.csv    # Spreadsheet-ready RTT data
+3. Latency Analytics
 
-🛠️ Installation & Usage
-1. Clone & Prepare
+Tracks network performance trends for specific targets in ping_svr.txt.
 
-Place all files in your desired directory and grant execution permissions:
-Bash
+    Data Format: Outputs to a standard .csv (Comma Separated Values) format.
 
+    Analysis: Perfect for importing into Excel, Grafana, or Python (Pandas) to visualize network jitter and lag spikes.
+
+📂 System Architecture
+
+The project follows a "Flat-Data" domestic structure to ensure portability across Linux distributions:
+File Name	Role	Description
+server_mnc.sh	Engine	The primary logic executor.
+servers.txt	Targets	Define your IP addresses here (one per line).
+ports.txt	Services	Define the ports you want to scan.
+ping_svr.txt	Sensors	Targets for detailed RTT (Round Trip Time) logs.
+logs/	Vault	Automatically generated folder containing uptime.log and latency.csv.
+🚀 Installation & Deployment
+Step 1: Create Folder and Set Permissions
+
+Create a directory for your monitoring suite and set executable permissions:
+bash
+
+mkdir ~/NetworkMon && cd ~/NetworkMon
 chmod +x server_mnc.sh
 
-2. Configure
+Step 2: Populate Configuration Files
 
-Update your .txt files with your network infrastructure data.
+Edit your configuration files. You may use # to add comments within your server and port lists.
+Step 3: Manual Run
 
-    Tip: You can use comments in your text files by starting a line with #.
-
-3. Execute
-
-Run the suite manually:
-Bash
+Execute the script to verify the configuration:
+bash
 
 ./server_mnc.sh
 
-📊 Sample Output
+Step 4: Automation (Cron Job)
 
-Terminal View:
-Plaintext
+To enable 24/7 monitoring on your system, use the Linux Cron utility:
 
-[*] Checking Server Uptime...
- [+] 192.168.1.1 is UP
- [-] 10.0.0.5 is DOWN
+    Open the crontab editor:
 
-[*] Checking Port Availability...
- [OPEN] 192.168.1.1:80
- [CLOSED] 192.168.1.1:22
+bash
 
-Latency CSV Format: | Timestamp | Target_IP | RTT_ms | | :--- | :--- | :--- | | 2025-12-23 23:05 | 8.8.8.8 | 14.2 | | 2025-12-23 23:05 | 1.1.1.1 | 8.5 |
-⏰ Automation (Cron)
+crontab -e
 
-Keep your logs up to date by running the script every 10 minutes. Add this to your crontab -e:
-Code snippet
+    Add the following line to run the monitor every 15 minutes (adjust path as needed):
 
-*/10 * * * * /path/to/your/folder/server_mnc.sh
+cron
 
-🛡️ Requirements
+*/15 * * * * /home/youruser/NetworkMon/server_mnc.sh
 
-    OS: Linux / BSD / macOS
+🎯 Kali Linux Compatibility & Setup
 
-    Dependencies: bash, ping, awk
+This script is fully compatible with Kali Linux. Since Kali is based on Debian, it uses the standard bash shell and includes ping and timeout utilities by default.
 
-    Permissions: User must have write access to the directory for logging.
+Optional Optimization: While not strictly required, running as sudo on Kali ensures ping has high-priority socket access for more accurate latency timing.
+🛡️ Requirements & Compatibility
+
+    Tested OS: Kali Linux, Ubuntu 22.04+, Debian, Arch Linux
+
+    Shell: Bash v4.0 or higher
+
+    Dependencies: ping, grep, awk, timeout
